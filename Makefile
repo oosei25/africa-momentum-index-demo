@@ -1,29 +1,3 @@
-
-.PHONY: up down psql schema streamlit
-
-up:
-	docker compose up -d db adminer
-
-down:
-	docker compose down
-
-psql:
-	psql postgresql://ami:ami@localhost:6543/ami
-
-schema:
-	docker exec -i africa-momentum-index-db psql -U ami -d ami < sql/schema.sql
-
-streamlit:
-	streamlit run dashboard/app.py
-
-seed:
-	POSTGRES_HOST=$${POSTGRES_HOST:-localhost} \
-	POSTGRES_PORT=$${POSTGRES_PORT:-6543} \
-	POSTGRES_DB=$${POSTGRES_DB:-ami} \
-	POSTGRES_USER=$${POSTGRES_USER:-ami} \
-	POSTGRES_PASSWORD=$${POSTGRES_PASSWORD:-ami} \
-		python seed_db.py
-
 .PHONY: demo demo-docker demo-local
 demo-local:
 	@POSTGRES_HOST=$${POSTGRES_HOST:-localhost}; \
